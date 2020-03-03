@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,14 +23,14 @@ public class EmployeeController {
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 	
 	
-	@GetMapping("/api/employees")
+	/*@GetMapping("/api/employees")
 	public ResponseEntity<List<Employee>> getAllCustomerDetails() {
 
 		List<Employee> customerDetaillist = employeeService.getAllEmployees();
 
 		return ResponseEntity.ok().body(customerDetaillist);
 
-	}
+	}*/
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Employee> findById(@PathVariable String id) {
@@ -52,5 +53,10 @@ public class EmployeeController {
 		return new ResponseEntity<Employee>(updated, HttpStatus.OK);
 
 	}
+	@DeleteMapping("/{id}")
+    public HttpStatus deleteEmployeeById(@PathVariable("id") String id) {
+		employeeService.deleteEmployeeById(id);
+        return HttpStatus.FORBIDDEN;
+    }
 
 }

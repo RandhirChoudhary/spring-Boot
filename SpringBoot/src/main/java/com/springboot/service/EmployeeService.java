@@ -8,4 +8,5 @@ public interface EmployeeService {
 	public List<Employee> getAllEmployees();
 	public Employee createOrUpdateEmployee(Employee employee);
 	Employee findEmployeeByAId(String id);
+	public void deleteEmployeeById(String id);
 }

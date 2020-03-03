@@ -58,5 +58,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return entity;
 		}
 	}
+	public void deleteEmployeeById(String id) {
+        Optional<Employee> employee = employeeRepository.findById(id);
+         
+        if(employee.isPresent()) 
+        {
+        	employeeRepository.deleteById(id);
+        } else {
+            
+        }
+    } 
 
 }
