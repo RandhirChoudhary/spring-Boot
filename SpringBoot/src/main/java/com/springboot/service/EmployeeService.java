@@ -6,7 +6,8 @@ import com.springboot.model.Employee;
 
 public interface EmployeeService {
 	public List<Employee> getAllEmployees();
-	public Employee createOrUpdateEmployee(Employee employee);
-	Employee findEmployeeByAId(String id);
+	public Employee createEmployee(Employee employee);
+	Employee findEmployeeById(String id);
+	public Employee updateEmployee(Employee entity);
 	public void deleteEmployeeById(String id);
 }

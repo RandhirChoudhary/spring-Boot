@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.model.Employee;
 import com.springboot.service.EmployeeService;
 
 @RestController
+//@RequestMapping("/api")
 public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
@@ -32,31 +34,39 @@ public class EmployeeController {
 
 	}*/
 
-	@GetMapping("/{id}")
+	@GetMapping("/api/{id}")
 	public ResponseEntity<Employee> findById(@PathVariable String id) {
-		logger.info("get an employee by employee id-controller");
-		Employee employee = employeeService.findEmployeeByAId(id);
+		logger.info("Get an employee by employee id-controller");
+		Employee employee = employeeService.findEmployeeById(id);
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
 	}
 
-	@GetMapping("/all")
+	@GetMapping("/api/all")
 	public ResponseEntity<List<Employee>> getAllEmployees() {
-		logger.info("get all employee-controller");
+		logger.info("Get all employee-controller");
 		List<Employee> employeeList = employeeService.getAllEmployees();
 		return new ResponseEntity<List<Employee>>(employeeList, HttpStatus.OK);
 	}
 
-	@PostMapping("/create")
-	public ResponseEntity<Employee> createOrUpdateEmployee(Employee entity) {
-		logger.info("create an employee-controller");
-		Employee updated = employeeService.createOrUpdateEmployee(entity);
-		return new ResponseEntity<Employee>(updated, HttpStatus.OK);
+	@PostMapping("/api/create")
+	public ResponseEntity<Employee> createEmployee(Employee entity) {
+		logger.info("Create an employee-controller-start");
+		Employee createEmployee = employeeService.createEmployee(entity);
+		return new ResponseEntity<Employee>(createEmployee, HttpStatus.OK);
 
 	}
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/api/{id}")
     public HttpStatus deleteEmployeeById(@PathVariable("id") String id) {
+		logger.info("Delete an employee-controller-start");
 		employeeService.deleteEmployeeById(id);
         return HttpStatus.FORBIDDEN;
     }
+	@PutMapping("/api/update")
+	public ResponseEntity<Employee> updateEmployee(Employee entity){
+		logger.info("Update an employee-controller-start");
+		Employee updated=employeeService.updateEmployee(entity);
+		return ResponseEntity.ok().body(updated);
+		
+	}
 
 }

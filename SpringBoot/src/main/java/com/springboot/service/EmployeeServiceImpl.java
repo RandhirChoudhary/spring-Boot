@@ -17,9 +17,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	EmployeeRepository employeeRepository;
 	private static final Logger logger = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+
 	@Override
-	public Employee findEmployeeByAId(String id) {
-		logger.info("get an employee by employee id-service");
+	public Employee findEmployeeById(String id) {
+		logger.info("Get an employee by employee id-service-start");
 		Optional<Employee> emp = employeeRepository.findById(id);
 		if (emp.isPresent()) {
 			return emp.get();
@@ -30,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Employee> getAllEmployees() {
-		logger.info("get all employee-service");
+		logger.info("Get all employee-service-start");
 		List<Employee> employeeList = employeeRepository.findAll();
 		if (employeeList.size() > 0) {
 			return employeeList;
@@ -40,33 +41,46 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Employee createOrUpdateEmployee(Employee entity) {
-		logger.info("create employee-service");
+	public Employee createEmployee(Employee entity) {
+		logger.info("Create employee-service-start");
+		/*
+		 * Optional<Employee> employee = employeeRepository.findById(entity.getId()); if
+		 * (employee.isPresent()) { Employee newEntity = employee.get();
+		 * newEntity.setFirstname(entity.getFirstname());
+		 * newEntity.setLastname(entity.getLastname());
+		 */
+
+		Employee employee = employeeRepository.save(entity);
+		logger.info("Create employee-service-end");
+		return employee;
+	}
+
+	public void deleteEmployeeById(String id) {
+		logger.info("Delete employee-service-start");
+		Optional<Employee> employee = employeeRepository.findById(id);
+
+		if (employee.isPresent()) {
+			employeeRepository.deleteById(id);
+		} else {
+
+		}
+		logger.info("Delete employee-service-end");
+	}
+
+	@Override
+	public Employee updateEmployee(Employee entity) {
+		logger.info("Update employee-service-start");
 		Optional<Employee> employee = employeeRepository.findById(entity.getId());
 		if (employee.isPresent()) {
 			Employee newEntity = employee.get();
 			newEntity.setFirstname(entity.getFirstname());
 			newEntity.setLastname(entity.getLastname());
-			
-
-			newEntity = employeeRepository.save(newEntity);
-
-			return newEntity;
+			Employee emp = employeeRepository.save(newEntity);
+			return emp;
 		} else {
-			entity = employeeRepository.save(entity);
-
-			return entity;
+			return null;
 		}
+
 	}
-	public void deleteEmployeeById(String id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
-         
-        if(employee.isPresent()) 
-        {
-        	employeeRepository.deleteById(id);
-        } else {
-            
-        }
-    } 
 
 }
